@@ -8,6 +8,7 @@ fastapi = "*"
 uvicorn = "*"
 aiofiles = "*"
 jinja2 = "*"
+black = "*"
 
 [dev-packages]
 
