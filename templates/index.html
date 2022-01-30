@@ -1,0 +1,30 @@
+<html>
+<head>
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css" />
+</head>
+<body>
+    <heder>
+        <h1>콜렉터 북북이</h1>
+    </heder>
+    <header>
+        <center>
+            <!--포인트: action="/search" -> submit 버튼을 누르는 순간 쿼리 파라미터를 받아서 현재 url엔드포인트+/search+쿼리검색으로 이동한다.-->
+            <form id="search_form" action="/search">
+                <!--포인트: name="q" -> q라는 쿼리 파라미터를 받아서 현재 엔드포인트에서 추가된다.-->
+                <input
+                        type="search"
+                        placeholder="keyword"
+                        id="search_input"
+                        name="q"
+                />
+                <button type="submit">검색</button>
+              </form>
+        </center>
+    </header>
+    <main>
+        {{ keyword }}
+    </main>
+
+</body>
+</html>
