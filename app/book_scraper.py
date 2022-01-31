@@ -4,7 +4,7 @@ import aiohttp
 from app.config import get_secret
 
 
-class NaverBookScrapper:
+class NaverBookScraper:
     NAVER_API_BOOK = "https://openapi.naver.com/v1/search/book"
     NAVER_API_ID = get_secret("NAVER_API_ID")
     NAVER_API_SECRET = get_secret("NAVER_API_SECRET")
@@ -33,7 +33,7 @@ class NaverBookScrapper:
         async with aiohttp.ClientSession() as session:
             all_data = await asyncio.gather(
                 *[
-                    NaverBookScrapper.fetch(session, api["url"], api["headers"])
+                    NaverBookScraper.fetch(session, api["url"], api["headers"])
                     for api in apis
                 ]
             )
@@ -44,8 +44,3 @@ class NaverBookScrapper:
 
     def run(self, keyword, total_page):
         return asyncio.run(self.search(keyword=keyword, total_page=total_page))
-
-
-if __name__ == "__main__":
-    scraper = NaverBookScrapper()
-    scraper.run("파이썬", 2)
