@@ -42,14 +42,27 @@ async def search(request: Request, q: str):
     """
     # 1
     keyword = q
+    # 키워드가 없으면 기본 템플릿을 반환
+    if not keyword:
+        context = {"request": request, "title": "북 콜렉터"}
+        return templates.TemplateResponse(
+            "/index.html", {"request": request, "title": "북 콜렉터"}
+        )
+    # 중복 데이터 제거
+    if await mongodb.engine.find_one(BookModel, BookModel.keyword == keyword):
+        books = await mongodb.engine.find(BookModel, BookModel.keyword == keyword)
+        return templates.TemplateResponse(
+            "/index.html", {"request": request, "title": "북 콜렉터", "keyword": q, "books": books}
+        )
+
     naver_book_scraper = NaverBookScraper()
     # 2
     books = await naver_book_scraper.search(keyword=keyword, total_page=10)
     # 3
-    book_model_list = [BookModel(keyword=keyword, **book)for book in books if book.title]
+    book_model_list = [BookModel(keyword=keyword, **book) for book in books]
     await mongodb.engine.save_all(book_model_list)
     return templates.TemplateResponse(
-        "/index.html", {"request": request, "title": "북 콜렉터", "keyword": q}
+        "/index.html", {"request": request, "title": "북 콜렉터", "keyword": q, "books": books}
     )
 
 

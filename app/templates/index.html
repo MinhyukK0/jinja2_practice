@@ -1,30 +1,59 @@
-<html>
-<head>
-    <title>{{ title }}</title>
-    <link rel="stylesheet" href="https://unpkg.com/mvp.css" />
-</head>
-<body>
-    <heder>
-        <h1>콜렉터 북북이</h1>
-    </heder>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>콜렉터</title>
+    <link href="https://unpkg.com/mvp.css" rel="stylesheet" />
+  </head>
+  <style>
+    section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+  </style>
+  <body>
     <header>
-        <center>
-            <!--포인트: action="/search" -> submit 버튼을 누르는 순간 쿼리 파라미터를 받아서 현재 url엔드포인트+/search+쿼리검색으로 이동한다.-->
-            <form id="search_form" action="/search">
-                <!--포인트: name="q" -> q라는 쿼리 파라미터를 받아서 현재 엔드포인트에서 추가된다.-->
-                <input
-                        type="search"
-                        placeholder="keyword"
-                        id="search_input"
-                        name="q"
-                />
-                <button type="submit">검색</button>
-              </form>
-        </center>
+      <h1>콜렉터스 북북이</h1>
+      <center>
+        <form id="search_form" action="/search">
+          <input
+            type="search"
+            placeholder="keyword"
+            id="search_input"
+            name="q"
+          />
+          <button type="submit">검색</button>
+        </form>
+      </center>
     </header>
     <main>
-        {{ keyword }}
-    </main>
+      {% if books %}
+      <!-- main.py의 books의 존재 유무 -->
+      <center>
+        <h3 style="color: gray">{{books|length}}개 데이터 수집..</h3>
+      </center>
+      <section>
+        {% for book in books %}
+        <div>
+          <img src="{{book.image}}" width="150px" height="200px" />
+          <p>
+            {% if book.publisher|length > 10 %}
+            <!-- 출판사 이름 길이가 10글자이상인 경우 -->
+            {{book.publisher[:10]}}...
+            <!-- 출판사 이름 길이가 10글자 이하인 경우 -->
+            {% else %} {{book.publisher}} {% endif %}
+          </p>
+          <p>{{book.price}} 원</p>
+        </div>
+        {% endfor %}
+      </section>
 
-</body>
+      <hr />
+      {{books}}
+      <!--  -->
+      {% else %}
+      <center><h3 style="color: gray">Please Input Keyword...</h3></center>
+      {% endif %}
+    </main>
+  </body>
 </html>
