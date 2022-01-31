@@ -9,6 +9,8 @@ uvicorn = "*"
 aiofiles = "*"
 jinja2 = "*"
 black = "*"
+odmantic = "*"
+aiohttp = "*"
 
 [dev-packages]
 black = "*"
